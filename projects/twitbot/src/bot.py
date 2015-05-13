@@ -106,11 +106,13 @@ def main():
 				merged = merge_files(document, imagefile)
 				# @TODO get from mention the name / screenname (m.user.screen_name) of the tweeter
 				# @TODO now get the image in 'merged' and tweet it back to the original tweeter 
+				mytweet = "@{0}".format(m.user.screen_name)
+				print "about to tweet: ", mytweet, " with image: ", merged
+				api.update_with_media(filename=merged, status=mytweet)
 			else:
 				print "Tweet doesn't have an image"
 	else:
 		print "no mentions"
-
 
 if __name__ == "__main__":
 	main()
