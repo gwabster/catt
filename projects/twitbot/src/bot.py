@@ -39,10 +39,23 @@ def choose_snowden_document():
 
 def merge_files(txt, img):
 	""" merge a text into an image """
-	destination = open(img, 'wb')
-	shutil.copyfileobj(open(txt, 'rb'), destination)
-	destination.close()
-	return img
+	with open(img) as fimg:
+		bufimg = fimg.read()
+
+	with open(txt) as ftxt:
+		buftxt = ftxt.read()
+
+	nameout = img+".jpeg"
+
+	with open(nameout, "wb") as fileout:
+		fileout.write(bufimg)
+		fileout.write(buftxt)
+
+	# bufimg = destination.read()
+	# bufpdf = 
+	# shutil.copyfileobj(destination) #, open(txt, 'rb'))
+	# destination.close()
+	return nameout
 
 
 def grab_images_from_tweet(tweet):
@@ -106,7 +119,7 @@ def main():
 				merged = merge_files(document, imagefile)
 				# @TODO get from mention the name / screenname (m.user.screen_name) of the tweeter
 				# @TODO now get the image in 'merged' and tweet it back to the original tweeter 
-				mytweet = "@{0}".format(m.user.screen_name)
+				mytweet = "hi " + "@{0}".format(m.user.screen_name)
 				print "about to tweet: ", mytweet, " with image: ", merged
 				api.update_with_media(filename=merged, status=mytweet)
 			else:
